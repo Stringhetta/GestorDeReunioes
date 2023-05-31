@@ -1,11 +1,10 @@
 import java.util.List;
 
 public class Usuario {
-
     private String nome;
     private String senha;
     private String email;
-    List<Evento> eventos;
+    private List<Evento> eventos;
 
     // Construtor
     public Usuario(String nome, String senha, String email, List<Evento> eventos) {
@@ -47,11 +46,48 @@ public class Usuario {
         this.eventos = eventos;
     }
 
-    public void adicionarEvento(Evento eventos){
-        //Metodo para adicionar o evento
+    public void adicionarEvento(Evento evento) {
+        eventos.add(evento);
     }
 
-    public void removerEvento(Evento eventos){
-        //Metodo para remover o evento
+    public void removerEvento(Evento evento) {
+        eventos.remove(evento);
+    }
+
+    public Evento buscarEvento(String nomeEvento) {
+        for (Evento evento : eventos) {
+            if (evento.getNome().equals(nomeEvento)) {
+                return evento;
+            }
+        }
+        return null;
+    }
+
+    public static Usuario buscarUsuarioPorNome(String nomeUsuario, List<Usuario> usuarios) {
+        for (Usuario usuario : usuarios) {
+            if (usuario.getNome().equals(nomeUsuario)) {
+                return usuario;
+            }
+        }
+        return null;
+    }
+
+    public String toFileLine() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(nome).append(",");
+        sb.append(senha).append(",");
+        sb.append(email);
+        return sb.toString();
+    }
+
+    public static Usuario fromFileLine(String line) {
+        String[] parts = line.split(",");
+        if (parts.length == 3) {
+            String nome = parts[0];
+            String senha = parts[1];
+            String email = parts[2];
+            return new Usuario(nome, senha, email, null);
+        }
+        return null;
     }
 }
